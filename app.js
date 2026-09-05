@@ -24,11 +24,26 @@ if (postsContainer) {
     postsContainer.innerHTML = '';
     snapshot.forEach(doc => {
       const data = doc.data();
+      
+      // Convert Firestore Timestamp to readable date format
+      let formattedDate = 'Recently';
+      if (data.timestamp) {
+        const dateObj = data.timestamp.toDate();
+        formattedDate = dateObj.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
+
       const card = document.createElement('article');
       card.className = 'post-card';
       card.innerHTML = `
         <div class="post-header">
           <span class="tag">${data.category}</span>
+          <span class="post-date">${formattedDate}</span>
         </div>
         <h2>${data.title}</h2>
         <p>${data.content}</p>
