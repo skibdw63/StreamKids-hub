@@ -158,3 +158,15 @@ button:hover {
   text-align: center;
   color: #64748b;
 }
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.post-date {
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
