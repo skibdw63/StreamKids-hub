@@ -8,10 +8,10 @@ const firebaseConfig = {
   appId: "1:995351131864:web:2d52f1124807da7ca849ad"
 };
 
-// Initialize Firebase
+// Initialize Firebase safely
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const auth = firebase.auth();
+const auth = typeof firebase.auth === 'function' ? firebase.auth() : null;
 
 // Load Posts on index.html
 const postsContainer = document.getElementById('posts-container');
@@ -37,7 +37,7 @@ if (postsContainer) {
     });
   }).catch(err => {
     console.error("Error loading posts:", err);
-    postsContainer.innerHTML = '<p>Failed to load posts.</p>';
+    postsContainer.innerHTML = '<p>Failed to load posts. Check browser console for errors.</p>';
   });
 }
 
@@ -45,7 +45,7 @@ if (postsContainer) {
 const loginSection = document.getElementById('login-section');
 const adminSection = document.getElementById('admin-section');
 
-if (loginSection && adminSection) {
+if (loginSection && adminSection && auth) {
   auth.onAuthStateChanged(user => {
     if (user && user.email === "skibidiw63@gmail.com") {
       loginSection.style.display = 'none';
@@ -59,13 +59,14 @@ if (loginSection && adminSection) {
 
 // Google Sign In
 function loginWithGoogle() {
+  if (!auth) return;
   const provider = new firebase.auth.GoogleAuthProvider();
   auth.signInWithPopup(provider).catch(err => alert("Login Error: " + err.message));
 }
 
 // Logout
 function logout() {
-  auth.signOut();
+  if (auth) auth.signOut();
 }
 
 // Handle Submitting Posts
@@ -82,7 +83,7 @@ if (postForm) {
     }).then(() => {
       alert("Devlog published!");
       postForm.reset();
-      window.location.href = "index.html"; // Go back to feed after posting
+      window.location.href = "index.html";
     }).catch(err => alert("Error publishing: " + err.message));
   });
 }
