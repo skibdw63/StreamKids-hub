@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamKids Hub - Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+  <header>
+    <div class="logo">StreamKids Admin</div>
+    <a href="index.html">Back to Feed</a>
+  </header>
+
+  <main class="container">
+    <!-- Login Section -->
+    <div id="login-section" class="card">
+      <h2>Admin Login</h2>
+      <button id="google-btn" onclick="loginWithGoogle()">Sign in with Google</button>
+    </div>
+
+    <!-- Devlog Form (Hidden until logged in) -->
+    <div id="admin-section" class="card" style="display: none;">
+      <h2>Publish New Devlog</h2>
+      <form id="post-form">
+        <label>Title</label>
+        <input type="text" id="title" required placeholder="Patch Note v1.0...">
+        
+        <label>Category</label>
+        <select id="category">
+          <option value="Patch Note">Patch Note</option>
+          <option value="Maintenance">Maintenance</option>
+          <option value="Announcement">Announcement</option>
+        </select>
+
+        <label>Content</label>
+        <textarea id="content" rows="6" required placeholder="What's new in this update..."></textarea>
+
+        <button type="submit">Publish Update</button>
+      </form>
+      <button onclick="logout()" class="logout-btn">Log Out</button>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
